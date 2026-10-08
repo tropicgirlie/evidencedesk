@@ -20,12 +20,12 @@
           <p class="lede">
             From MomOps, a case-file view of cosmetics named in lawsuits, recalls,
             adverse-event reports, regulatory actions, and scientific sources.
-            Allegation and proof are shown as different things.
+            The country of purchase chooses the record system. Allegation and proof stay separate.
           </p>
         </div>
         <aside class="case-note" aria-label="Evidence standard">
           <strong>Evidence standard</strong>
-          <p>Every record should name the source, jurisdiction, date, and status before it makes a claim.</p>
+          <p>Every record names the document, the country, the date, and the evidence label before it makes a claim.</p>
         </aside>
       </section>
 
@@ -33,28 +33,57 @@
         <div class="search-main">
           <label for="product-search">Product, brand, or barcode</label>
           <div class="search-row">
-            <input id="product-search" type="search" placeholder="Try: hair relaxer, talc, dry shampoo" autocomplete="off">
+            <input id="product-search" type="search" placeholder="Try: L'Oréal, Dove, hair relaxer, 8011530850012" autocomplete="off" aria-describedby="search-hint">
             <button id="scan-button" type="button">Scan barcode</button>
           </div>
         </div>
-        <fieldset class="jurisdiction-filter" aria-label="Jurisdiction">
-          <legend>Jurisdiction</legend>
-          <label>
-            <input type="radio" name="jurisdiction" value="all" checked>
-            All
-          </label>
-          <label>
-            <input type="radio" name="jurisdiction" value="us">
-            U.S.
-          </label>
-          <label>
-            <input type="radio" name="jurisdiction" value="eu-uk">
-            EU / UK
-          </label>
-        </fieldset>
-        <p class="hint">
-          Prototype data is illustrative. A production version should verify each
-          record against court dockets, FDA sources, and product identifiers.
+        <div class="lot-field">
+          <label for="lot-code">Lot or batch code</label>
+          <input id="lot-code" type="text" placeholder="From the can or carton" autocomplete="off" spellcheck="false" aria-describedby="search-hint">
+        </div>
+        <div class="country-field">
+          <label for="country">Country of purchase</label>
+          <select id="country">
+            <optgroup label="United States">
+              <option value="us" selected>United States</option>
+            </optgroup>
+            <optgroup label="United Kingdom">
+              <option value="uk">United Kingdom</option>
+            </optgroup>
+            <optgroup label="European Union">
+              <option value="at">Austria</option>
+              <option value="be">Belgium</option>
+              <option value="bg">Bulgaria</option>
+              <option value="hr">Croatia</option>
+              <option value="cy">Cyprus</option>
+              <option value="cz">Czechia</option>
+              <option value="dk">Denmark</option>
+              <option value="ee">Estonia</option>
+              <option value="fi">Finland</option>
+              <option value="fr">France</option>
+              <option value="de">Germany</option>
+              <option value="gr">Greece</option>
+              <option value="hu">Hungary</option>
+              <option value="ie">Ireland</option>
+              <option value="it">Italy</option>
+              <option value="lv">Latvia</option>
+              <option value="lt">Lithuania</option>
+              <option value="lu">Luxembourg</option>
+              <option value="mt">Malta</option>
+              <option value="nl">Netherlands</option>
+              <option value="pl">Poland</option>
+              <option value="pt">Portugal</option>
+              <option value="ro">Romania</option>
+              <option value="sk">Slovakia</option>
+              <option value="si">Slovenia</option>
+              <option value="es">Spain</option>
+              <option value="se">Sweden</option>
+            </optgroup>
+          </select>
+        </div>
+        <p class="hint" id="search-hint">
+          Prototype documents are real public records, stored as a starter set on October 8, 2026.
+          A production desk would query each source live. This page does not calculate a filing deadline and does not file a case.
         </p>
       </section>
 
@@ -66,69 +95,69 @@
         </div>
       </section>
 
-      <section class="summary-grid" aria-label="Evidence types">
+      <section class="summary-grid" aria-label="Record systems">
         <article>
           <span class="scope-code">01</span>
-          <strong>Recalls</strong>
-          <span>FDA recalls, market withdrawals, and safety alerts.</span>
+          <strong>United States</strong>
+          <span>FDA recalls, federal dockets, and public CAERS reports. State courts are separate.</span>
         </article>
         <article>
           <span class="scope-code">02</span>
-          <strong>Lawsuits</strong>
-          <span>U.S. dockets first; EU and UK cases need country-by-country matching.</span>
+          <strong>European Union</strong>
+          <span>Safety Gate alerts by notifying country. Serious undesirable effects are not a public search.</span>
         </article>
         <article>
           <span class="scope-code">03</span>
-          <strong>Adverse Events</strong>
-          <span>Consumer and company reports. Signals, not proof by themselves.</span>
+          <strong>United Kingdom</strong>
+          <span>OPSS alerts and UK courts. Neither FDA nor Safety Gate decides a UK purchase.</span>
         </article>
         <article>
           <span class="scope-code">04</span>
-          <strong>Regulatory Actions</strong>
-          <span>Warning letters, import alerts, and enforcement records.</span>
+          <strong>Studies</strong>
+          <span>A paper travels across borders. Its exposure definition still has to match the product.</span>
         </article>
       </section>
 
       <section class="results" aria-labelledby="results-title">
         <div class="section-heading">
           <h2 id="results-title">Evidence Records</h2>
-          <p id="result-count">Showing all starter records</p>
+          <p id="result-count" aria-live="polite">Showing the starter set</p>
         </div>
-        <div id="cards" class="cards"></div>
+        <div id="next-step" class="next-step"></div>
+        <div id="cards" class="record-groups"></div>
         <div id="empty" class="empty" hidden>
-          <h3>No matching record yet</h3>
+          <h3>No matching document in this starter set</h3>
           <p>
-            This does not mean the product is safe. It means this prototype dataset
-            has not linked it to a public evidence record.
+            This does not mean the product is safe. It means these stored records do not name it.
+            Check the coverage list for systems that were not searched.
           </p>
+        </div>
+        <div class="coverage-wrap">
+          <h3 id="coverage-title">What this search covered</h3>
+          <div id="coverage" class="coverage-list" aria-labelledby="coverage-title"></div>
         </div>
       </section>
 
       <section class="build-notes" aria-labelledby="build-title">
-        <h2 id="build-title">What The Real Database Needs</h2>
+        <h2 id="build-title">What a live desk still has to connect</h2>
         <div class="notes-grid">
           <div>
-            <h3>Source Ingestion</h3>
+            <h3>Live sources</h3>
             <p>
-              Pull from openFDA cosmetic adverse events, FDA recall and enforcement
-              APIs, CourtListener/RECAP dockets, EU Safety Gate, UK product safety
-              alerts, country court portals where available, and curated scientific
-              literature.
+              Query FDA recalls, openFDA CAERS, CourtListener, and Safety Gate at search time.
+              Store the retrieval date on every document.
             </p>
           </div>
           <div>
-            <h3>Evidence Labels</h3>
+            <h3>Closed records</h3>
             <p>
-              Every claim should be tagged as alleged, reported, recalled, regulated,
-              peer-reviewed, settled, or judicially found. That prevents fear dressed
-              up as certainty.
+              EU serious undesirable effects, most U.S. state dockets, and national European judgments are not in one public API. Say so instead of showing a zero.
             </p>
           </div>
           <div>
-            <h3>Product Matching</h3>
+            <h3>Identity</h3>
             <p>
-              Barcode scanning should resolve UPC/EAN to brand, product, size, lot,
-              and variant, then match fuzzy product names across court and FDA records.
+              Resolve the barcode to the label, then match lot, batch, and the responsible person for the country where it was bought.
             </p>
           </div>
         </div>
