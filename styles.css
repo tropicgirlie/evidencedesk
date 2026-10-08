@@ -241,6 +241,10 @@ button:hover {
   line-height: 1.5;
 }
 
+.scanner[hidden] {
+  display: none;
+}
+
 .scanner {
   display: grid;
   grid-template-columns: minmax(180px, 320px) 1fr;
