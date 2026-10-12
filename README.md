@@ -49,6 +49,33 @@ court system.
 5. Show a consumer summary plus the source, date, jurisdiction, status, and
    evidentiary label for every claim.
 
+## Current State
+
+This is a public-facing **preview**, not a live cosmetic safety database. The five
+cards are research topics. Search only filters those topics; scanning reads a code
+but does not resolve a product or check a recall. No result here is a safety or
+legal determination. See `REVIEW.md` for the product and evidence assessment.
+
 ## Local Preview
 
 Open `index.html` in a browser, or serve this folder with any static file server.
+
+## Cloudflare Workers Preview
+
+The static assets are copied into `dist/` so only the site files are published.
+Use Node.js 20 or newer:
+
+```sh
+npm install
+npm run dev
+```
+
+To publish to the `evidence-desk-preview` Worker in the selected Cloudflare account:
+
+```sh
+npm run deploy
+```
+
+The Worker configuration is in `wrangler.jsonc`. The `*.workers.dev` address is
+printed by Wrangler after deployment. This is a manual deployment; pushes to
+GitHub do not automatically update the Worker.

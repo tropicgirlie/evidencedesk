@@ -33,6 +33,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   background: var(--bg);
 }
@@ -431,18 +435,8 @@ button:hover {
   color: var(--ink);
 }
 
-.risk.high {
-  background: var(--amber);
-  color: var(--ink);
-}
-
-.risk.medium {
-  background: var(--amber);
-  color: var(--ink);
-}
-
-.risk.watch {
-  background: var(--amber);
+.risk.example {
+  background: var(--surface);
   color: var(--ink);
 }
 
@@ -504,6 +498,13 @@ button:hover {
 .source-row a:hover {
   background: var(--amber);
   color: var(--ink);
+}
+
+.source-note {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .empty {

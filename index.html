@@ -15,26 +15,25 @@
 
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy">
-          <p class="eyebrow">Search the public record before it reaches your bathroom shelf</p>
+          <p class="eyebrow">A public evidence index in development</p>
           <h1 id="page-title">Is this on record?</h1>
           <p class="lede">
-            From MomOps, a case-file view of cosmetics named in lawsuits, recalls,
-            adverse-event reports, regulatory actions, and scientific sources.
-            Allegation and proof are shown as different things.
+            Explore the kinds of public sources a cosmetic safety search should check.
+            This preview contains research topics, not verified results for a product.
           </p>
         </div>
         <aside class="case-note" aria-label="Evidence standard">
-          <strong>Evidence standard</strong>
-          <p>Every record should name the source, jurisdiction, date, and status before it makes a claim.</p>
+          <strong>Preview only</strong>
+          <p>No live database is connected. A search or barcode scan here cannot tell you whether a particular product is safe, recalled, or named in litigation.</p>
         </aside>
       </section>
 
       <section class="search-panel" role="search" aria-label="Product search">
         <div class="search-main">
-          <label for="product-search">Product, brand, or barcode</label>
+          <label for="product-search">Search research topics</label>
           <div class="search-row">
             <input id="product-search" type="search" placeholder="Try: hair relaxer, talc, dry shampoo" autocomplete="off">
-            <button id="scan-button" type="button">Scan barcode</button>
+            <button id="scan-button" type="button">Scan barcode (demo)</button>
           </div>
         </div>
         <fieldset class="jurisdiction-filter" aria-label="Jurisdiction">
@@ -53,15 +52,15 @@
           </label>
         </fieldset>
         <p class="hint">
-          Prototype data is illustrative. A production version should verify each
-          record against court dockets, FDA sources, and product identifiers.
+          Search filters the topics below. The scanner reads a code but does not identify
+          a product or check a recall. Check an official notice and its lot details before acting.
         </p>
       </section>
 
       <section class="scanner" id="scanner" hidden>
         <video id="camera" playsinline></video>
         <div class="scanner-copy">
-          <p id="scan-status">Point the camera at a UPC or EAN barcode.</p>
+          <p id="scan-status" role="status">Point the camera at a UPC or EAN barcode. Product lookup is not connected.</p>
           <button id="stop-scan" type="button">Stop camera</button>
         </div>
       </section>
@@ -91,15 +90,15 @@
 
       <section class="results" aria-labelledby="results-title">
         <div class="section-heading">
-          <h2 id="results-title">Evidence Records</h2>
-          <p id="result-count">Showing all starter records</p>
+          <h2 id="results-title">Research topics</h2>
+          <p id="result-count" role="status">Showing all topics</p>
         </div>
         <div id="cards" class="cards"></div>
         <div id="empty" class="empty" hidden>
-          <h3>No matching record yet</h3>
+          <h3>No matching topic</h3>
           <p>
-            This does not mean the product is safe. It means this prototype dataset
-            has not linked it to a public evidence record.
+            This preview does not search product records. A missing topic tells you
+            nothing about a product's safety or legal history.
           </p>
         </div>
       </section>
