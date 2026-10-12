@@ -2,7 +2,7 @@
 
 ## Current purpose
 
-The Evidence Desk is a MomOps public-interest index that helps readers check whether a U.S. cosmetic or personal-care item appears in a small, reviewed set of FDA-posted company recall notices. The first release contains ten historical notices. Its useful outcome is a direct link to the original notice and a careful comparison of product identifiers.
+Evidence Desk is a public-facing index that helps readers check whether a U.S. cosmetic or personal-care item appears in a small, reviewed set of FDA-posted company recall notices. The first release contains ten historical notices. Its useful outcome is a direct link to the original notice and a careful comparison of product identifiers.
 
 ## Reader journey
 
