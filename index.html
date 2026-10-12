@@ -3,110 +3,114 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Search a small, source-linked index of U.S. cosmetic recall notices and check affected product identifiers against the original FDA-posted notices.">
-    <title>U.S. Cosmetic Recall Desk | MomOps</title>
+    <meta name="description" content="Look up a product in a small, source-linked collection of U.S. cosmetic recall notices. Compare the exact package and lot with the original FDA-posted notice.">
+    <title>Evidence Desk | Cosmetic recall lookup</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="shell">
-      <header class="masthead" aria-label="Site identity">
-        <a href="./" class="wordmark">The Evidence Desk</a>
-        <span>A MomOps public record project</span>
+    <div class="site-wrap">
+      <header class="masthead">
+        <a href="./" class="wordmark" aria-label="Evidence Desk home"><span class="wordmark-icon" aria-hidden="true">e<span class="wordmark-dot">.</span></span><span>Evidence Desk<small>by MomOps</small></span></a>
+        <nav aria-label="Main navigation">
+          <a href="#how-it-works">How to use it</a>
+          <a href="#about-title">About this index</a>
+        </nav>
       </header>
 
-      <section class="hero" aria-labelledby="page-title">
-        <div class="hero-copy">
-          <p class="eyebrow">U.S. cosmetic recall notices</p>
-          <h1 id="page-title">Check the notice.</h1>
-          <p class="lede">
-            Search a small, reviewed set of FDA-posted company recall notices by product name or barcode.
-            Compare the exact lot or manufacturing code before deciding whether a notice applies to your item.
-          </p>
-        </div>
-        <aside class="case-note" aria-label="Collection scope">
-          <strong>Collection scope</strong>
-          <p><span id="collection-size">10</span> notices, reviewed 12 October 2026. This is a limited historical index, not a live or complete recall search.</p>
-        </aside>
-      </section>
-
-      <section class="search-panel" role="search" aria-label="Search recall notices">
-        <div class="search-main">
-          <label for="product-search">Product name, brand, or UPC/EAN</label>
-          <div class="search-row">
-            <input id="product-search" type="search" placeholder="Try: Oribe shampoo or 840035231242" autocomplete="off" spellcheck="false">
-            <button id="scan-button" type="button">Scan barcode</button>
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> U.S. cosmetic recall notices</p>
+            <h1 id="page-title">A clearer way to check a recall.</h1>
+            <p class="lede">Search for a product, then compare the details on your package with the original FDA-posted notice.</p>
+            <div class="collection-meta" aria-label="Collection scope">
+              <span class="meta-icon" aria-hidden="true">↗</span>
+              <div>
+                <strong>Small, reviewed collection</strong>
+                <p><span id="collection-size">10</span> historical notices · Reviewed 12 October 2026</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="lot-field">
-          <label for="lot-search">Lot, batch, or manufacturing code <span>(optional)</span></label>
-          <input id="lot-search" type="text" placeholder="For example: YR010556" autocomplete="off" spellcheck="false">
-        </div>
-        <p class="hint">
-          A barcode identifies a product, not its lot. “No match” means only that this small collection
-          did not find one. Always read the linked notice for the current scope and instructions.
-        </p>
-      </section>
+          <figure class="hero-art"><img src="assets/beauty-still-life.jpg" alt="" width="1024" height="1536" fetchpriority="high"><figcaption>Illustrative imagery. No pictured product is identified in this index.</figcaption></figure>
+        </section>
 
-      <section class="scanner" id="scanner" hidden>
-        <video id="camera" playsinline muted></video>
-        <div class="scanner-copy">
-          <p id="scan-status" role="status">Point the camera at a UPC or EAN barcode.</p>
-          <button id="stop-scan" type="button">Stop camera</button>
-        </div>
-      </section>
-
-      <section class="summary-grid" aria-label="How to use this index">
-        <article>
-          <span class="scope-code">01</span>
-          <strong>Find the product</strong>
-          <span>Use the exact label name or barcode. A name match is a lead to investigate.</span>
-        </article>
-        <article>
-          <span class="scope-code">02</span>
-          <strong>Check the affected code</strong>
-          <span>Lots, batch numbers, manufacture dates, and sizes can narrow a recall.</span>
-        </article>
-        <article>
-          <span class="scope-code">03</span>
-          <strong>Read the source</strong>
-          <span>The FDA-posted notice supplies the controlling product details and consumer instructions.</span>
-        </article>
-      </section>
-
-      <section class="results" aria-labelledby="results-title">
-        <div class="section-heading">
-          <h2 id="results-title">Recall notices</h2>
-          <p id="result-count" role="status">Showing all 10 notices</p>
-        </div>
-        <div id="match-message" class="match-message" role="status" hidden></div>
-        <div id="cards" class="cards"></div>
-        <div id="empty" class="empty" hidden>
-          <h3>No match in this collection</h3>
-          <p>This index is limited to ten notices and is not a safety clearance. Search the
-            <a href="https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts" target="_blank" rel="noopener noreferrer">FDA recalls page</a>
-            and compare the original product details.</p>
-        </div>
-      </section>
-
-      <section class="build-notes" aria-labelledby="about-title">
-        <h2 id="about-title">How results are described</h2>
-        <div class="notes-grid">
-          <div>
-            <h3>Identifiers match</h3>
-            <p>An exact barcode and exact listed lot match one notice in this collection. Confirm the package and read the FDA-posted notice.</p>
+        <section class="search-panel" role="search" aria-label="Search recall notices">
+          <div class="search-heading">
+            <div>
+              <h2>Check a product</h2>
+              <p>Start with the exact name or barcode from the package.</p>
+            </div>
+            <span class="search-icon" aria-hidden="true">⌕</span>
           </div>
-          <div>
-            <h3>Check the lot</h3>
-            <p>The product or barcode appears in a notice, but a lot or date is missing or needs manual comparison. A name match alone is never a confirmed match.</p>
+          <div class="search-fields">
+            <div class="search-main">
+              <label for="product-search">Product name, brand, or UPC/EAN</label>
+              <div class="search-row">
+                <input id="product-search" type="search" placeholder="Try Oribe shampoo or 840035231242" autocomplete="off" spellcheck="false">
+                <button id="scan-button" type="button">Scan barcode</button>
+              </div>
+            </div>
+            <div class="lot-field">
+              <label for="lot-search">Lot or batch code <span>(optional)</span></label>
+              <input id="lot-search" type="text" placeholder="For example, YR010556" autocomplete="off" spellcheck="false">
+            </div>
           </div>
-          <div>
-            <h3>Source status</h3>
-            <p>These are dated company announcements posted by FDA. Recall status and scope can change. The original notice takes priority over this index.</p>
-          </div>
-        </div>
-      </section>
-    </main>
+          <p class="hint">A barcode identifies a product, not its lot. A match in this index still needs a check against the original notice.</p>
+        </section>
 
+        <section class="scanner" id="scanner" hidden>
+          <video id="camera" playsinline muted></video>
+          <div class="scanner-copy">
+            <p id="scan-status" role="status">Point the camera at a UPC or EAN barcode.</p>
+            <button id="stop-scan" type="button">Stop camera</button>
+          </div>
+        </section>
+
+        <section class="reading-guide" id="how-it-works" aria-labelledby="guide-title">
+          <div class="guide-heading">
+            <h2 id="guide-title">Read the match, then the source.</h2>
+            <p>Product name, size, barcode, lot, and date codes can all affect whether a notice applies.</p>
+          </div>
+          <ol>
+            <li><strong>Find the product</strong><span>A name match is a lead to investigate.</span></li>
+            <li><strong>Compare the code</strong><span>Check the exact affected lot or date range.</span></li>
+            <li><strong>Open the notice</strong><span>Follow the original source for instructions.</span></li>
+          </ol>
+        </section>
+
+        <section class="results" aria-labelledby="results-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">The collection</p>
+              <h2 id="results-title">Recall notices</h2>
+            </div>
+            <p id="result-count" role="status">Showing all 10 notices</p>
+          </div>
+          <div id="match-message" class="match-message" role="status" hidden></div>
+          <div id="cards" class="cards"></div>
+          <div id="empty" class="empty" hidden>
+            <h3>No match in this collection</h3>
+            <p>This limited index did not find a match. That does not establish that a product is safe or free of recalls.</p>
+            <a href="https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts" target="_blank" rel="noopener noreferrer">Search FDA recall notices ↗</a>
+          </div>
+        </section>
+
+        <section class="build-notes" aria-labelledby="about-title">
+          <div class="about-intro">
+            <p class="section-label">Our method</p>
+            <h2 id="about-title">Know what the result means.</h2>
+            <p>These are historical company announcements posted by FDA, selected and reviewed for this small index. The linked notice is the source for current scope and instructions.</p>
+          </div>
+          <div class="notes-grid">
+            <div><h3>Identifiers listed together</h3><p>The entered barcode and lot appear together in one indexed notice. Confirm the package against the source.</p></div>
+            <div><h3>More checking needed</h3><p>A name or barcode alone may not identify an affected item. Some notices require a manual date or product-list check.</p></div>
+            <div><h3>No result found</h3><p>Only ten notices are covered. A missing result is never a safety clearance.</p></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer"><span>Evidence Desk by MomOps</span><span>Source first. Scope clear. Corrections welcome via <a href="https://github.com/tropicgirlie/evidencedesk/issues" target="_blank" rel="noopener noreferrer">GitHub issues</a>.</span></footer>
+    </div>
     <script type="module" src="app.js"></script>
   </body>
 </html>

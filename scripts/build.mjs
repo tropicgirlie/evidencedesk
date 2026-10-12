@@ -5,3 +5,4 @@ await mkdir("dist", { recursive: true });
 for (const file of ["index.html", "styles.css", "app.js", "recalls.js", "match.js"]) {
   await cp(file, `dist/${file}`);
 }
+await cp("assets", "dist/assets", { recursive: true });

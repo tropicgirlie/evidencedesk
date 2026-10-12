@@ -2,16 +2,24 @@
 
 ## Direction
 
-A calm public-record desk: editorial typography, deep green masthead, clear search fields, and source-forward notice cards. The interface should help readers compare identifiers without turning a recall lead into an alarm or a safety verdict.
+Evidence Desk should feel like a polished beauty editorial tool with the precision of a public-record index. Readers may be worried about a product they own, so the interface should help them search quickly and understand exactly what a result says. Mauve and plum give the surface warmth and expression; restrained record rows keep the evidence readable. The original notice remains the most important link.
 
-## Current layout
+## Layout and hierarchy
 
-- Masthead and collection scope identify the project and the date of review.
-- Search accepts product, brand, UPC/EAN, and optional lot or batch code.
-- Three short steps explain product matching, affected codes, and source reading.
-- Results show the notice type and date, a cautious match label, reason, affected scope, consumer instructions, indexed items, and the direct FDA link.
-- An empty state states the collection limit and links to FDA's broader recall page.
+- A compact identity header links to the usage guide and source method.
+- A short introduction states the task, followed by collection size and review date. An unbranded beauty still life adds category context and is labeled as illustrative.
+- The search panel is the primary interaction, with barcode and optional lot entry.
+- A three-step guide explains why package details and the original notice matter.
+- Records use consistent rows instead of isolated warning cards. Each row shows the brand, product, notice date, match label, scope, instructions, identifiers, and direct source.
+- The final method section explains exact matches, uncertain matches, and missing results.
 
-## Content and accessibility
+## Visual system
 
-Use plain labels that describe what matched. Never rely on color alone. Keep the original notice one click away. Search fields have visible labels, result counts use live status text, and camera scanning has a text-entry fallback. Test contrast, keyboard access, and narrow screens as the collection grows.
+- DM Sans carries all tool controls, data, and result headings. Newsreader is reserved for large page and section headings.
+- Deep plum is for primary actions and source links. Warm gold appears only as a small identity accent.
+- Surfaces use white and pale mauve neutrals. Status labels have words as well as color.
+- Borders mark fields and sections, with rounded corners capped at 14px.
+
+## Accessibility and content
+
+Use visible labels, strong contrast, keyboard focus rings, a text-entry fallback for camera scanning, and reduced-motion support. Avoid risk scores, safety verdicts, and claims of complete coverage. Every record leads to the original FDA-posted notice.
