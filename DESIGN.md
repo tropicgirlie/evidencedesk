@@ -2,7 +2,7 @@
 
 ## Direction
 
-Evidence Desk should feel like a polished beauty editorial tool with the precision of a public-record index. Readers may be worried about a product they own, so the interface should help them search quickly and understand exactly what a result says. Mauve and plum give the surface warmth and expression; restrained record rows keep the evidence readable. The original notice remains the most important link.
+Evidence Desk should feel like a polished beauty editorial tool with the precision of a public-record index. Readers may be worried about a product they own, so the interface should help them search quickly and understand exactly what a result says. A cool neutral surface and deep green controls balance the mauve still life; restrained record rows keep the evidence readable. The original notice remains the most important link.
 
 ## Layout and hierarchy
 
@@ -16,8 +16,8 @@ Evidence Desk should feel like a polished beauty editorial tool with the precisi
 ## Visual system
 
 - DM Sans carries all tool controls, data, and result headings. Newsreader is reserved for large page and section headings.
-- Deep plum is for primary actions and source links. Warm gold appears only as a small identity accent.
-- Surfaces use white and pale mauve neutrals. Status labels have words as well as color.
+- Deep green is for primary actions and source links. Muted mauve appears in the image and small identity accents.
+- Surfaces use white and cool neutral gray. Status labels have words as well as color.
 - Borders mark fields and sections, with rounded corners capped at 14px.
 
 ## Accessibility and content
