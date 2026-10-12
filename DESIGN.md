@@ -1,36 +1,25 @@
 # Design
 
-## Theme
+## Direction
 
-Public health case file. The page should feel like a regulator archive made legible for consumers: white paper, dense black type, deep bottle green, and sharp evidence-status color.
+Evidence Desk should feel like a polished beauty editorial tool with the precision of a public-record index. Readers may be worried about a product they own, so the interface should help them search quickly and understand exactly what a result says. A cool neutral surface and deep green controls balance the mauve still life; restrained record rows keep the evidence readable. The original notice remains the most important link.
 
-## Color
+## Layout and hierarchy
 
-Use OKLCH tokens only.
+- A compact identity header links to the usage guide and source method.
+- A short introduction states the task, followed by collection size and review date. An unbranded beauty still life adds category context and is labeled as illustrative.
+- The search panel is the primary interaction, with barcode and optional lot entry.
+- A three-step guide explains why package details and the original notice matter.
+- Records use consistent rows instead of isolated warning cards. Each row shows the brand, product, notice date, match label, scope, instructions, identifiers, and direct source.
+- The final method section explains exact matches, uncertain matches, and missing results.
 
-- Background: pure white
-- Ink: near-black neutral
-- Primary: deep bottle green from the brand seed
-- Accent: red docket mark for high-risk legal/regulatory emphasis
-- Amber: recall and caution states
-- Surface: quiet neutral panels without warm cream tint
+## Visual system
 
-## Typography
+- DM Sans carries all tool controls, data, and result headings. Newsreader is reserved for large page and section headings.
+- Deep green is for primary actions and source links. Muted mauve appears in the image and small identity accents.
+- Surfaces use white and cool neutral gray. Status labels have words as well as color.
+- Borders mark fields and sections, with rounded corners capped at 14px.
 
-Use a distinctive editorial sans/display combination without defaulting to generic system UI. Headings should be compressed and assertive; body copy should be readable and calm. Avoid decorative serif magazine tropes.
+## Accessibility and content
 
-## Layout
-
-The first viewport is an investigation desk: masthead, decisive title, search dossier, and evidence scope. Results should read like public records, with jurisdiction and evidence type visible near the top of each record.
-
-## Components
-
-- Masthead: small publication-like identity bar
-- Search dossier: product/barcode input, scan action, jurisdiction controls
-- Evidence scope: compact labels for recalls, lawsuits, adverse events, and regulatory actions
-- Record: docket-style evidence item with risk, jurisdiction, summary, evidence bullets, and primary source links
-- Build notes: lower-priority implementation roadmap
-
-## Motion
-
-Use brief, purposeful motion only for result updates, scanner state, and link focus. Respect `prefers-reduced-motion`.
+Use visible labels, strong contrast, keyboard focus rings, a text-entry fallback for camera scanning, and reduced-motion support. Avoid risk scores, safety verdicts, and claims of complete coverage. Every record leads to the original FDA-posted notice.
