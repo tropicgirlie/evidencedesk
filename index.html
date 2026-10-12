@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>The Evidence Desk | MomOps</title>
+    <meta name="description" content="Search a small, source-linked index of U.S. cosmetic recall notices and check affected product identifiers against the original FDA-posted notices.">
+    <title>U.S. Cosmetic Recall Desk | MomOps</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -15,125 +16,97 @@
 
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy">
-          <p class="eyebrow">A public evidence index in development</p>
-          <h1 id="page-title">Is this on record?</h1>
+          <p class="eyebrow">U.S. cosmetic recall notices</p>
+          <h1 id="page-title">Check the notice.</h1>
           <p class="lede">
-            Explore the kinds of public sources a cosmetic safety search should check.
-            This preview contains research topics, not verified results for a product.
+            Search a small, reviewed set of FDA-posted company recall notices by product name or barcode.
+            Compare the exact lot or manufacturing code before deciding whether a notice applies to your item.
           </p>
         </div>
-        <aside class="case-note" aria-label="Evidence standard">
-          <strong>Preview only</strong>
-          <p>No live database is connected. A search or barcode scan here cannot tell you whether a particular product is safe, recalled, or named in litigation.</p>
+        <aside class="case-note" aria-label="Collection scope">
+          <strong>Collection scope</strong>
+          <p><span id="collection-size">10</span> notices, reviewed 12 October 2026. This is a limited historical index, not a live or complete recall search.</p>
         </aside>
       </section>
 
-      <section class="search-panel" role="search" aria-label="Product search">
+      <section class="search-panel" role="search" aria-label="Search recall notices">
         <div class="search-main">
-          <label for="product-search">Search research topics</label>
+          <label for="product-search">Product name, brand, or UPC/EAN</label>
           <div class="search-row">
-            <input id="product-search" type="search" placeholder="Try: hair relaxer, talc, dry shampoo" autocomplete="off">
-            <button id="scan-button" type="button">Scan barcode (demo)</button>
+            <input id="product-search" type="search" placeholder="Try: Oribe shampoo or 840035231242" autocomplete="off" spellcheck="false">
+            <button id="scan-button" type="button">Scan barcode</button>
           </div>
         </div>
-        <fieldset class="jurisdiction-filter" aria-label="Jurisdiction">
-          <legend>Jurisdiction</legend>
-          <label>
-            <input type="radio" name="jurisdiction" value="all" checked>
-            All
-          </label>
-          <label>
-            <input type="radio" name="jurisdiction" value="us">
-            U.S.
-          </label>
-          <label>
-            <input type="radio" name="jurisdiction" value="eu-uk">
-            EU / UK
-          </label>
-        </fieldset>
+        <div class="lot-field">
+          <label for="lot-search">Lot, batch, or manufacturing code <span>(optional)</span></label>
+          <input id="lot-search" type="text" placeholder="For example: YR010556" autocomplete="off" spellcheck="false">
+        </div>
         <p class="hint">
-          Search filters the topics below. The scanner reads a code but does not identify
-          a product or check a recall. Check an official notice and its lot details before acting.
+          A barcode identifies a product, not its lot. “No match” means only that this small collection
+          did not find one. Always read the linked notice for the current scope and instructions.
         </p>
       </section>
 
       <section class="scanner" id="scanner" hidden>
-        <video id="camera" playsinline></video>
+        <video id="camera" playsinline muted></video>
         <div class="scanner-copy">
-          <p id="scan-status" role="status">Point the camera at a UPC or EAN barcode. Product lookup is not connected.</p>
+          <p id="scan-status" role="status">Point the camera at a UPC or EAN barcode.</p>
           <button id="stop-scan" type="button">Stop camera</button>
         </div>
       </section>
 
-      <section class="summary-grid" aria-label="Evidence types">
+      <section class="summary-grid" aria-label="How to use this index">
         <article>
           <span class="scope-code">01</span>
-          <strong>Recalls</strong>
-          <span>FDA recalls, market withdrawals, and safety alerts.</span>
+          <strong>Find the product</strong>
+          <span>Use the exact label name or barcode. A name match is a lead to investigate.</span>
         </article>
         <article>
           <span class="scope-code">02</span>
-          <strong>Lawsuits</strong>
-          <span>U.S. dockets first; EU and UK cases need country-by-country matching.</span>
+          <strong>Check the affected code</strong>
+          <span>Lots, batch numbers, manufacture dates, and sizes can narrow a recall.</span>
         </article>
         <article>
           <span class="scope-code">03</span>
-          <strong>Adverse Events</strong>
-          <span>Consumer and company reports. Signals, not proof by themselves.</span>
-        </article>
-        <article>
-          <span class="scope-code">04</span>
-          <strong>Regulatory Actions</strong>
-          <span>Warning letters, import alerts, and enforcement records.</span>
+          <strong>Read the source</strong>
+          <span>The FDA-posted notice supplies the controlling product details and consumer instructions.</span>
         </article>
       </section>
 
       <section class="results" aria-labelledby="results-title">
         <div class="section-heading">
-          <h2 id="results-title">Research topics</h2>
-          <p id="result-count" role="status">Showing all topics</p>
+          <h2 id="results-title">Recall notices</h2>
+          <p id="result-count" role="status">Showing all 10 notices</p>
         </div>
+        <div id="match-message" class="match-message" role="status" hidden></div>
         <div id="cards" class="cards"></div>
         <div id="empty" class="empty" hidden>
-          <h3>No matching topic</h3>
-          <p>
-            This preview does not search product records. A missing topic tells you
-            nothing about a product's safety or legal history.
-          </p>
+          <h3>No match in this collection</h3>
+          <p>This index is limited to ten notices and is not a safety clearance. Search the
+            <a href="https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts" target="_blank" rel="noopener noreferrer">FDA recalls page</a>
+            and compare the original product details.</p>
         </div>
       </section>
 
-      <section class="build-notes" aria-labelledby="build-title">
-        <h2 id="build-title">What The Real Database Needs</h2>
+      <section class="build-notes" aria-labelledby="about-title">
+        <h2 id="about-title">How results are described</h2>
         <div class="notes-grid">
           <div>
-            <h3>Source Ingestion</h3>
-            <p>
-              Pull from openFDA cosmetic adverse events, FDA recall and enforcement
-              APIs, CourtListener/RECAP dockets, EU Safety Gate, UK product safety
-              alerts, country court portals where available, and curated scientific
-              literature.
-            </p>
+            <h3>Identifiers match</h3>
+            <p>An exact barcode and exact listed lot match one notice in this collection. Confirm the package and read the FDA-posted notice.</p>
           </div>
           <div>
-            <h3>Evidence Labels</h3>
-            <p>
-              Every claim should be tagged as alleged, reported, recalled, regulated,
-              peer-reviewed, settled, or judicially found. That prevents fear dressed
-              up as certainty.
-            </p>
+            <h3>Check the lot</h3>
+            <p>The product or barcode appears in a notice, but a lot or date is missing or needs manual comparison. A name match alone is never a confirmed match.</p>
           </div>
           <div>
-            <h3>Product Matching</h3>
-            <p>
-              Barcode scanning should resolve UPC/EAN to brand, product, size, lot,
-              and variant, then match fuzzy product names across court and FDA records.
-            </p>
+            <h3>Source status</h3>
+            <p>These are dated company announcements posted by FDA. Recall status and scope can change. The original notice takes priority over this index.</p>
           </div>
         </div>
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

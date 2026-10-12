@@ -1,6 +1,6 @@
 # Evidence Desk: product and evidence review
 
-Reviewed 12 October 2026 against the GitHub prototype. This is a planning review,
+Reviewed 12 October 2026 against the GitHub prototype and first recall release. This is a planning review,
 not a legal opinion, medical advice, or a product safety finding.
 
 ## Direction
@@ -12,22 +12,30 @@ A sensible first slice is U.S. cosmetic recalls, because official notices often
 identify products and affected lots. Add adverse-event reports and litigation
 only after provenance, identity matching, and editorial review are working.
 
-## Current gaps, in priority order
+## First milestone completed
 
-1. **Identity matching.** The current scanner only decodes a barcode. It has no
-   UPC/EAN catalog, and a barcode alone may not identify an affected lot. Require
-   brand, full product name, variant, size, and lot or batch where relevant.
-2. **Source provenance.** The prototype stores topic text in JavaScript. Each
-   future finding needs a direct source URL, issuing authority or court, record
+The current preview indexes ten manually reviewed, direct-linked FDA-posted company
+notices in `recalls.js`. Search accepts names and UPC/EAN codes, and compares entered
+lots where the notice provides discrete codes. Date ranges and external product
+lists remain manual checks. The interface states its collection size and review date,
+shows consumer instructions, and treats a missing result as inconclusive.
+
+## Remaining gaps, in priority order
+
+1. **Identity matching.** The curated records carry only identifiers listed in
+   the notices. This is not a complete UPC/EAN catalog, and a barcode alone may
+   not identify an affected lot. Verify brand, full name, variant, size, and lot.
+2. **Source provenance.** Records now have direct URLs and review dates. Future
+   findings still need a durable source snapshot, issuing authority or court, record
    identifier, source date, retrieval date, jurisdiction, verbatim excerpt,
    editorial summary, and review history.
 3. **Evidence classification.** Keep allegations, filed claims, settlements,
    judicial findings, agency actions, recalls, adverse-event reports, and studies
    separate. Do not turn them into a single color or risk score. A complaint
    proves a claim was filed; it does not prove the claim's underlying facts.
-4. **Coverage and freshness.** Show which sources and dates were searched and
-   when they were last refreshed. A missing record means only that the checked
-   sources did not return a verified match.
+4. **Coverage and freshness.** Establish scheduled source checks and a correction
+   workflow. A missing record means only this small historical index did not find
+   a verified match.
 5. **Consumer action.** For a verified recall, link to the notice, quote the
    affected identifiers, show the notice's consumer instructions, and preserve
    its publication and update dates. For a possible match, ask the user to
@@ -70,8 +78,7 @@ only after provenance, identity matching, and editorial review are working.
 
 ## Next build milestone
 
-Implement a U.S. recall-only result flow with 10 to 20 manually verified notices,
-including one lot-specific example and one ambiguous product match. Test the
-complete flow with consumers before connecting more sources or assigning risk
-levels. Treat AI as an extraction and drafting aid whose output is checked
+Test the complete lookup flow with consumers and a qualified reviewer. Add a
+source-refresh and corrections process before increasing coverage or assigning
+risk levels. Treat AI as an extraction and drafting aid whose output is checked
 against the primary record before publication.

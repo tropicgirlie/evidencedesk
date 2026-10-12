@@ -1,33 +1,25 @@
 # Product
 
-## Register
+## Current purpose
 
-brand
+The Evidence Desk is a MomOps public-interest index that helps readers check whether a U.S. cosmetic or personal-care item appears in a small, reviewed set of FDA-posted company recall notices. The first release contains ten historical notices. Its useful outcome is a direct link to the original notice and a careful comparison of product identifiers.
 
-## Users
+## Reader journey
 
-Consumers, advocates, journalists, and researchers who want to understand whether a cosmetic product has public evidence of harm attached to it. The main consumer context is practical and time-sensitive: someone is considering a product, already owns it, or is worried after hearing about a lawsuit, recall, or cancer-related allegation.
+1. Search by the exact package name, brand, or UPC/EAN; barcode scanning is available where the browser supports it.
+2. Add the lot or batch code when the package has one.
+3. Read the match label and compare the full brand, size, UPC, lot, manufacture date, and expiration date in the original notice.
+4. Follow the notice's own consumer instructions when it applies.
 
-## Product Purpose
+## Evidence rules
 
-The Evidence Desk is a MomOps public-interest cosmetic safety evidence index. Its first tool, "Is this on record?", helps people search by product name or barcode and see whether a product is named in linked records: lawsuits, recalls, adverse-event reports, regulatory actions, and scientific sources. Success means users can distinguish allegation from proof, find primary sources quickly, and understand jurisdiction limits without being frightened by vague claims.
+- A name match is a lead, not confirmation.
+- A barcode match without the affected lot still needs a lot check.
+- Exact barcode and indexed lot may be labeled as listed together, with a prompt to confirm the package and source.
+- Date ranges and external product lists stay manual.
+- No result is never a safety clearance. The collection is limited and historical.
+- Each record carries its source URL, notice date, reason, affected scope, and action. The original notice takes priority.
 
-## Brand Personality
+## Next product work
 
-Clinical, adversarial, calm. The voice is direct and careful, like an investigative desk that respects both public fear and evidentiary limits.
-
-## Anti-references
-
-This should not look like a wellness app, an ingredient scanner, a cute shopping tool, a generic SaaS landing page, or a fearmongering cancer-warning site. It should avoid soft pastel health branding, decorative gradients, cartoon icons, and sensational claims.
-
-## Design Principles
-
-- Evidence before emotion: source type, status, and jurisdiction must be visible before interpretation.
-- Name uncertainty clearly: alleged, reported, recalled, regulated, studied, settled, and found are different states.
-- Make public records usable: the interface should feel like an index that ordinary people can read.
-- Serious does not mean inert: motion and visual hierarchy should clarify state, not decorate fear.
-- Europe is not one court: EU/UK safety alerts and country-specific litigation must be separated.
-
-## Accessibility & Inclusion
-
-Aim for WCAG 2.1 AA or better. Body text must be high contrast, motion must respect reduced-motion preferences, labels must be explicit, and color may never be the only way to communicate risk or evidence category.
+Research real user comprehension of the match labels and lot lookup. Build an editorial record with source snapshots, review history, corrections, and a source refresh process before growing coverage. Litigation, adverse events, scientific claims, and health-risk interpretation require separate evidence models and qualified legal and cosmetic-safety review.

@@ -1,36 +1,17 @@
 # Design
 
-## Theme
+## Direction
 
-Public health case file. The page should feel like a regulator archive made legible for consumers: white paper, dense black type, deep bottle green, and sharp evidence-status color.
+A calm public-record desk: editorial typography, deep green masthead, clear search fields, and source-forward notice cards. The interface should help readers compare identifiers without turning a recall lead into an alarm or a safety verdict.
 
-## Color
+## Current layout
 
-Use OKLCH tokens only.
+- Masthead and collection scope identify the project and the date of review.
+- Search accepts product, brand, UPC/EAN, and optional lot or batch code.
+- Three short steps explain product matching, affected codes, and source reading.
+- Results show the notice type and date, a cautious match label, reason, affected scope, consumer instructions, indexed items, and the direct FDA link.
+- An empty state states the collection limit and links to FDA's broader recall page.
 
-- Background: pure white
-- Ink: near-black neutral
-- Primary: deep bottle green from the brand seed
-- Accent: red docket mark for high-risk legal/regulatory emphasis
-- Amber: recall and caution states
-- Surface: quiet neutral panels without warm cream tint
+## Content and accessibility
 
-## Typography
-
-Use a distinctive editorial sans/display combination without defaulting to generic system UI. Headings should be compressed and assertive; body copy should be readable and calm. Avoid decorative serif magazine tropes.
-
-## Layout
-
-The first viewport is an investigation desk: masthead, decisive title, search dossier, and evidence scope. Results should read like public records, with jurisdiction and evidence type visible near the top of each record.
-
-## Components
-
-- Masthead: small publication-like identity bar
-- Search dossier: product/barcode input, scan action, jurisdiction controls
-- Evidence scope: compact labels for recalls, lawsuits, adverse events, and regulatory actions
-- Record: docket-style evidence item with risk, jurisdiction, summary, evidence bullets, and primary source links
-- Build notes: lower-priority implementation roadmap
-
-## Motion
-
-Use brief, purposeful motion only for result updates, scanner state, and link focus. Respect `prefers-reduced-motion`.
+Use plain labels that describe what matched. Never rely on color alone. Keep the original notice one click away. Search fields have visible labels, result counts use live status text, and camera scanning has a text-entry fallback. Test contrast, keyboard access, and narrow screens as the collection grows.

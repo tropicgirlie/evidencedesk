@@ -1,230 +1,117 @@
-const records = [
-  {
-    brand: "Hair relaxer category",
-    product: "Chemical hair straighteners and relaxers",
-    barcodes: [],
-    risk: "example",
-    jurisdiction: "us",
-    jurisdictionLabel: "U.S. litigation",
-    riskLabel: "Topic example · no product match",
-    summary:
-      "Multiple lawsuits allege long-term use of some chemical hair relaxers is linked to uterine cancer and other hormone-related harms. These are allegations and scientific associations, not a finding that every product caused an injury.",
-    evidence: [
-      "Lawsuit: product-liability claims have been consolidated in federal multidistrict litigation.",
-      "Science: studies have examined associations between frequent use of chemical hair straighteners and uterine cancer risk.",
-      "Regulatory: this category should be tracked against FDA cosmetic adverse-event and enforcement records."
-    ],
-    sources: [
-      ["Federal MDL 3060", "https://www.ilnd.uscourts.gov/mdl.aspx"],
-      ["2022 Sister Study paper", "https://pubmed.ncbi.nlm.nih.gov/36245087/"],
-      ["2023 Black Women's Health Study paper", "https://pubmed.ncbi.nlm.nih.gov/37821068/"]
-    ],
-    keywords: ["hair relaxer", "straightener", "uterine cancer", "litigation"]
-  },
-  {
-    brand: "Talc category",
-    product: "Talc-based body powders and cosmetic powders",
-    barcodes: [],
-    risk: "example",
-    jurisdiction: "us",
-    jurisdictionLabel: "U.S. litigation",
-    riskLabel: "Topic example · no product match",
-    summary:
-      "Talc cosmetic litigation often centers on allegations of asbestos contamination or ovarian cancer risk. Any product-level result needs exact brand, lot, date, and court record matching.",
-    evidence: [
-      "Lawsuit: many talc claims have been filed over alleged cancer risks.",
-      "Regulatory: talc and asbestos testing history should be linked per product and time period.",
-      "Data quality: old packaging, reformulations, and discontinued SKUs make barcode-level matching essential."
-    ],
-    sources: [
-      ["FDA talc testing", "https://www.fda.gov/cosmetics/cosmetic-ingredients/talc"],
-      ["FDA lot-specific alert", "https://www.fda.gov/cosmetics/cosmetics-compliance-enforcement/fda-advises-consumers-stop-using-certain-cosmetic-products"]
-    ],
-    keywords: ["talc", "baby powder", "body powder", "ovarian cancer", "asbestos"]
-  },
-  {
-    brand: "Aerosol dry shampoo category",
-    product: "Aerosol dry shampoos with benzene recall history",
-    barcodes: [],
-    risk: "example",
-    jurisdiction: "us",
-    jurisdictionLabel: "U.S. recall / enforcement",
-    riskLabel: "Topic example · check exact lots",
-    summary:
-      "An October 2022 U.S. recall covered selected lots of aerosol dry shampoos made by Unilever. A product-level result must match the exact brand, product, and lot in the notice; this preview does not perform that match.",
-    evidence: [
-      "Recall: FDA recall and enforcement records may include product descriptions, lots, recall reason, and firm.",
-      "Risk: benzene is a known carcinogen, but recall presence depends on specific affected products.",
-      "Action: barcode plus lot-code capture matters more than a broad category warning."
-    ],
-    sources: [
-      ["FDA-posted recall notice", "https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/unilever-issues-voluntary-us-recall-select-dry-shampoos-due-potential-presence-benzene"]
-    ],
-    keywords: ["dry shampoo", "aerosol", "benzene", "recall"]
-  },
-  {
-    brand: "Any cosmetic product",
-    product: "Adverse-event report watchlist",
-    barcodes: [],
-    risk: "example",
-    jurisdiction: "us",
-    jurisdictionLabel: "U.S. adverse-event data",
-    riskLabel: "Topic example · reports are not proof",
-    summary:
-      "FDA adverse-event reports can support investigation, but a report does not prove that a product caused an event. This preview has no report counts or product-specific findings.",
-    evidence: [
-      "Data: openFDA exposes cosmetic adverse-event records for search and aggregation.",
-      "Regulatory: MoCRA requires responsible persons to report serious adverse events to FDA.",
-      "UX rule: any future counts need a dated source snapshot and a plain explanation of reporting limits."
-    ],
-    sources: [
-      ["openFDA cosmetic events", "https://open.fda.gov/apis/cosmetic/event/"],
-      ["FDA reporting limitations", "https://www.fda.gov/safety/fda-adverse-event-monitoring-system-aems"]
-    ],
-    keywords: ["adverse event", "reaction", "rash", "hair loss", "burn", "complaint"]
-  },
-  {
-    brand: "EU / UK dangerous-products records",
-    product: "Cosmetics flagged by Safety Gate or national product-safety alerts",
-    barcodes: [],
-    risk: "example",
-    jurisdiction: "eu-uk",
-    jurisdictionLabel: "EU / UK safety alerts",
-    riskLabel: "Topic example · no product match",
-    summary:
-      "European coverage should start with EU Safety Gate and UK product-safety alerts. Lawsuits are not covered by one central EU docket, so litigation matching needs country-specific court sources and case-law indexes.",
-    evidence: [
-      "EU: Safety Gate circulates alerts for dangerous non-food products across EU and EEA authorities.",
-      "UK: product-safety alerts and recalls can identify unsafe or non-compliant cosmetics sold in the UK.",
-      "Litigation: EU/UK court coverage should be tagged by country and source because public access varies widely."
-    ],
-    sources: [
-      ["EU Safety Gate", "https://ec.europa.eu/safety-gate/"],
-      ["UK Product Safety Alerts", "https://www.gov.uk/product-safety-alerts-reports-recalls"]
-    ],
-    keywords: ["europe", "eu", "uk", "safety gate", "rapex", "recall", "dangerous product", "cosmetics"]
-  }
-];
+import { notices, reviewedOn } from "./recalls.js";
+import { findNotices } from "./match.js";
 
 const cards = document.querySelector("#cards");
 const empty = document.querySelector("#empty");
-const search = document.querySelector("#product-search");
+const productInput = document.querySelector("#product-search");
+const lotInput = document.querySelector("#lot-search");
 const resultCount = document.querySelector("#result-count");
+const matchMessage = document.querySelector("#match-message");
 const scanner = document.querySelector("#scanner");
 const scanButton = document.querySelector("#scan-button");
 const stopScanButton = document.querySelector("#stop-scan");
 const camera = document.querySelector("#camera");
 const scanStatus = document.querySelector("#scan-status");
-const jurisdictionInputs = document.querySelectorAll("input[name='jurisdiction']");
+
+document.querySelector("#collection-size").textContent = String(notices.length);
 
 let stream;
 let detectorTimer;
+let readingCode = false;
 
-function normalize(value) {
-  return value.trim().toLowerCase();
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[character]);
 }
 
-function matchesRecord(record, query) {
-  if (!query) return true;
-  const haystack = [
-    record.brand,
-    record.product,
-    record.summary,
-    ...record.keywords,
-    ...record.barcodes
-  ].join(" ").toLowerCase();
-
-  return haystack.includes(query);
+function formatDate(value) {
+  return new Intl.DateTimeFormat("en-US", {
+    day: "numeric", month: "short", year: "numeric", timeZone: "UTC"
+  }).format(new Date(`${value}T00:00:00Z`));
 }
 
-function currentJurisdiction() {
-  return document.querySelector("input[name='jurisdiction']:checked").value;
+const labels = {
+  "identifiers-match": "Barcode and lot listed",
+  "lot-listed": "Lot listed; check product",
+  "check-lot": "Barcode listed; check lot",
+  manual: "Check codes in source",
+  "name-lead": "Product name lead",
+  "lot-not-listed": "Lot not listed here",
+  archive: "FDA-posted notice"
+};
+
+const explanations = {
+  "identifiers-match": "The entered barcode and lot appear together in this indexed notice. Check your package details and the FDA-posted source before acting.",
+  "lot-listed": "The entered lot appears in this notice, but the product was found by name. Confirm the exact brand, size, and barcode in the source.",
+  "check-lot": "The barcode appears in this notice. Enter the package lot to narrow the match.",
+  manual: "This notice uses dates or an external product list. Compare every affected identifier directly in the source.",
+  "name-lead": "The name resembles a product in this notice. Check the exact product, barcode, and affected code in the source.",
+  "lot-not-listed": "The barcode appears here, but the entered lot is not among this notice's indexed lots. This is not a safety clearance; other notices may exist.",
+  archive: "Historical company announcement posted by FDA. Open the source for its complete scope and current status."
+};
+
+function renderItem(item) {
+  const code = item.upc ? `<span>UPC ${escapeHtml(item.upc)}</span>` : "";
+  const lots = item.lots?.length ? `<span>Lots ${escapeHtml(item.lots.join(", "))}</span>` : "";
+  const manual = item.manualCode ? "<span>Check dates / codes in source</span>" : "";
+  const all = item.allLots ? "<span>All lots in notice</span>" : "";
+  return `<li><strong>${escapeHtml(item.name)}</strong><div class="item-codes">${code}${lots}${manual}${all}</div></li>`;
 }
 
-function matchesJurisdiction(record, jurisdiction) {
-  return jurisdiction === "all" || record.jurisdiction === jurisdiction;
-}
-
-function render(query = "") {
-  const normalized = normalize(query);
-  const jurisdiction = currentJurisdiction();
-  const filtered = records.filter((record) => {
-    return matchesRecord(record, normalized) && matchesJurisdiction(record, jurisdiction);
-  });
-
-  cards.classList.remove("is-updating");
-  void cards.offsetWidth;
-  cards.innerHTML = filtered.map(renderCard).join("");
-  cards.classList.add("is-updating");
-  empty.hidden = filtered.length > 0;
-  resultCount.textContent = filtered.length === records.length
-    ? "Showing all topics"
-    : `${filtered.length} matching topic${filtered.length === 1 ? "" : "s"}`;
-}
-
-function renderCard(record) {
-  const evidence = record.evidence.map((item) => `<li>${item}</li>`).join("");
-  const sources = record.sources
-    .map(([label, url]) => `<a href="${url}" target="_blank" rel="noreferrer">${label}</a>`)
-    .join("");
-
+function renderCard({ notice, items, status }) {
+  const extra = notice.items.length > items.length
+    ? `<p class="other-items">This notice includes ${notice.items.length - items.length} other listed product${notice.items.length - items.length === 1 ? "" : "s"}. Read the source for the full scope.</p>`
+    : "";
   return `
     <article class="card">
       <header>
-        <span class="brand">${record.brand}</span>
-        <h3>${record.product}</h3>
-        <span class="jurisdiction">${record.jurisdictionLabel}</span>
-        <span class="risk ${record.risk}">${record.riskLabel}</span>
+        <span class="brand">${escapeHtml(notice.brand)}</span>
+        <h3>${escapeHtml(notice.title)}</h3>
+        <span class="jurisdiction">U.S. · FDA-posted company notice · ${escapeHtml(formatDate(notice.published))}</span>
+        <span class="risk ${escapeHtml(status)}">${escapeHtml(labels[status])}</span>
       </header>
       <div class="record-body">
-        <p>${record.summary}</p>
-        <ul class="evidence-list">${evidence}</ul>
-        <div class="source-row" aria-label="Reference sources">${sources}</div>
-        <small class="source-note">Reference sources for this topic. They do not establish a match to a product you searched.</small>
+        <p>${escapeHtml(explanations[status])}</p>
+        <dl class="record-facts">
+          <div><dt>Reason stated</dt><dd>${escapeHtml(notice.reason)}</dd></div>
+          <div><dt>Affected scope</dt><dd>${escapeHtml(notice.scope)}</dd></div>
+          <div><dt>Notice instructions</dt><dd>${escapeHtml(notice.action)}</dd></div>
+        </dl>
+        <details class="item-details" ${status === "archive" ? "" : "open"}>
+          <summary>Listed products and codes (${items.length})</summary>
+          <ul class="item-list">${items.map(renderItem).join("")}</ul>
+        </details>
+        ${extra}
+        <div class="source-row"><a href="${escapeHtml(notice.url)}" target="_blank" rel="noopener noreferrer">Read FDA-posted notice ↗</a></div>
+        <small class="source-note">Indexed ${escapeHtml(formatDate(reviewedOn))}. This page is an aid to reading the source, not FDA's current recall status.</small>
       </div>
     </article>
   `;
 }
 
-async function startScanner() {
-  if (!("BarcodeDetector" in window)) {
-    scanStatus.textContent = "Barcode scanning is not supported in this browser. Product lookup is not connected in this preview.";
-    scanner.hidden = false;
-    return;
-  }
+function render() {
+  const query = productInput.value.trim();
+  const results = findNotices(query, lotInput.value);
+  cards.innerHTML = results.map(renderCard).join("");
+  empty.hidden = results.length > 0 || !query;
+  resultCount.textContent = query
+    ? `${results.length} notice${results.length === 1 ? "" : "s"} in this collection`
+    : `Showing all ${notices.length} notices`;
 
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" },
-      audio: false
-    });
-    camera.srcObject = stream;
-    await camera.play();
-    scanner.hidden = false;
-    scanner.classList.add("is-scanning");
-    scanStatus.textContent = "Point the camera at a UPC or EAN barcode. Product lookup is not connected.";
-
-    const detector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
-    detectorTimer = window.setInterval(async () => {
-      try {
-        const codes = await detector.detect(camera);
-        if (!codes.length) return;
-        scanStatus.textContent = `Scanned ${codes[0].rawValue}. This preview cannot identify the product or check records.`;
-        stopScanner();
-      } catch {
-        scanStatus.textContent = "The camera could not read a barcode. Product lookup is not connected in this preview.";
-        stopScanner();
-      }
-    }, 500);
-  } catch (error) {
-    scanner.hidden = false;
-    scanStatus.textContent = "Camera access was not available. Product lookup is not connected in this preview.";
+  matchMessage.hidden = !query || results.length === 0;
+  if (!matchMessage.hidden) {
+    const definite = results.some((result) => result.status === "identifiers-match");
+    matchMessage.textContent = definite
+      ? "An exact barcode and lot appear in a notice below. Confirm the package and follow the source notice."
+      : "These are possible leads in a limited index. Check all affected identifiers in the source notice.";
   }
 }
 
 function stopScanner() {
   window.clearInterval(detectorTimer);
   detectorTimer = undefined;
+  readingCode = false;
   scanner.classList.remove("is-scanning");
   if (stream) {
     stream.getTracks().forEach((track) => track.stop());
@@ -233,14 +120,48 @@ function stopScanner() {
   camera.srcObject = null;
 }
 
-search.addEventListener("input", (event) => render(event.target.value));
-jurisdictionInputs.forEach((input) => {
-  input.addEventListener("change", () => render(search.value));
-});
-scanButton.addEventListener("click", startScanner);
-stopScanButton.addEventListener("click", () => {
-  stopScanner();
-  scanner.hidden = true;
-});
+async function startScanner() {
+  if (stream) return;
+  scanner.hidden = false;
+  if (!("BarcodeDetector" in window) || !navigator.mediaDevices?.getUserMedia) {
+    scanStatus.textContent = "Barcode scanning is unavailable in this browser. Type the UPC or EAN from the package.";
+    return;
+  }
 
+  try {
+    const detector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+    camera.srcObject = stream;
+    await camera.play();
+    scanner.classList.add("is-scanning");
+    scanStatus.textContent = "Point the camera at the barcode. Then check the lot code on the package.";
+    detectorTimer = window.setInterval(async () => {
+      if (readingCode) return;
+      readingCode = true;
+      try {
+        const codes = await detector.detect(camera);
+        if (codes.length) {
+          productInput.value = codes[0].rawValue;
+          render();
+          scanStatus.textContent = `Read barcode ${codes[0].rawValue}. Enter the lot code to narrow the result.`;
+          stopScanner();
+        }
+      } catch {
+        scanStatus.textContent = "The camera could not read a barcode. Type the code from the package.";
+        stopScanner();
+      } finally {
+        readingCode = false;
+      }
+    }, 500);
+  } catch {
+    stopScanner();
+    scanStatus.textContent = "Camera access was unavailable. Type the UPC or EAN from the package.";
+  }
+}
+
+productInput.addEventListener("input", render);
+lotInput.addEventListener("input", render);
+scanButton.addEventListener("click", startScanner);
+stopScanButton.addEventListener("click", () => { stopScanner(); scanner.hidden = true; });
+document.addEventListener("visibilitychange", () => { if (document.hidden) stopScanner(); });
 render();
