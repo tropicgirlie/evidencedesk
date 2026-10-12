@@ -6,7 +6,7 @@ A small, source-linked index of ten U.S. cosmetic and personal-care recall notic
 
 Enter a product name, brand, UPC, or EAN. If the package has a lot or batch code, enter that too. A barcode can identify a product but usually cannot establish whether its lot is affected. Each result links directly to its FDA-posted notice and shows the indexed product identifiers and the notice's consumer instructions. Date ranges and external product lists require manual comparison in the source.
 
-The public preview is at <https://evidence-desk-preview.luanagbc.workers.dev/>.
+The primary public preview is at <https://evidence-desk-preview.luanagbc.workers.dev/>. The existing Vercel URL, <https://evidencedesk.vercel.app/>, serves the same built assets.
 
 ## Run locally
 
@@ -23,6 +23,7 @@ npm run build
 ```
 
 `npm run deploy` publishes the `dist` directory as Cloudflare Worker static assets, using `wrangler.jsonc` and the locally authenticated Cloudflare account.
+`vercel.json` points the existing Vercel project to that same `dist` directory.
 
 ## Editorial scope
 
